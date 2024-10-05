@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saklar Tema Gelap dengan Animasi</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: white;
+            color: black;
+            text-align: center;
+            margin-top: 50px;
+            transition: background-color 1s, color 1s;
+        }
+
+        #switchButton {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #f0f0f0;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.5s, transform 0.5s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #switchButton:before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300%;
+            height: 300%;
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translate(-50%, -50%) scale(0);
+            border-radius: 50%;
+            transition: transform 0.5s ease;
+        }
+
+        #switchButton:hover:before {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        #switchButton.night {
+            background-color: #333;
+            color: white;
+        }
+
+        #greeting {
+            font-size: 2em;
+            transition: transform 0.5s, opacity 0.5s;
+        }
+
+        .fadeOut {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .fadeIn {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <h1 id="greeting">Selamat Siang!</h1>
+    <button id="switchButton" onclick="toggleTheme()">Switch to Night</button>
+
+    <script>
+        function toggleTheme() {
+            var body = document.body;
+            var button = document.getElementById('switchButton');
+            var greeting = document.getElementById('greeting');
+
+            // Animasi text keluar dulu
+            greeting.classList.add('fadeOut');
+
+            // Menunggu animasi keluar selesai (0.5 detik), lalu ubah tema
+            setTimeout(function () {
+                // Toggle theme
+                if (body.style.backgroundColor === 'white' || body.style.backgroundColor === '') {
+                    body.style.backgroundColor = 'black';
+                    body.style.color = 'white';
+                    greeting.textContent = 'Selamat Malam!';
+                    button.textContent = 'Switch to Day';
+                    button.classList.add('night');
+                } else {
+                    body.style.backgroundColor = 'white';
+                    body.style.color = 'black';
+                    greeting.textContent = 'Selamat Siang!';
+                    button.textContent = 'Switch to Night';
+                    button.classList.remove('night');
+                }
+
+                // Setelah tema diubah, animasi masuk text
+                greeting.classList.remove('fadeOut');
+                greeting.classList.add('fadeIn');
+            }, 500);
+        }
+    </script>
+</body>
+</html>
